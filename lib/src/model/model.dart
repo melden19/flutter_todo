@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart'; 
 
 class ToDo {
   final String title;
@@ -15,6 +15,15 @@ class ToDo {
       data: data ?? this.data
     );
   }
+
+  ToDo.fromJson(Map json)
+    : title = json['title'],
+      data = json['data'];
+  
+  Map toJson() => {
+    'title': title,
+    'data': data
+  };
 }
 
 class AppState {
@@ -25,4 +34,9 @@ class AppState {
   });
 
   AppState.initialState() : todos = List.unmodifiable(<ToDo>[]);
+
+  AppState.fromJson(Map json)
+    : todos = (json['todos'] as List).map((todo) => ToDo.fromJson(todo)).toList();
+
+  Map toJson() => {'todos': todos};
 }
