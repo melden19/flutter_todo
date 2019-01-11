@@ -5,6 +5,7 @@ import 'package:redux/redux.dart';
 import 'package:todo_list/src/model/model.dart';
 import 'package:todo_list/src/redux/actions.dart';
 import 'package:todo_list/src/components/ToDoList.dart';
+import 'package:todo_list/src/screens/AddTodoScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -12,14 +13,19 @@ class HomeScreen extends StatelessWidget {
     return new StoreConnector<AppState, _ViewModel>(
       converter: (Store<AppState> store) => _ViewModel.create(store),
       builder: (BuildContext context, _ViewModel viewModel) => Scaffold(
-            appBar: AppBar(title: Text("ToDo application")),
-            body: ToDoList(viewModel), 
-            floatingActionButton: FloatingActionButton(
-              onPressed: () => viewModel.addTodo(new ToDo(data: 'fourth item', title: 'qwe')),
-              tooltip: 'Add Todo', 
-              child: Icon(Icons.add),
-            ),
-          ),
+        appBar: AppBar(title: Text("ToDo application")),
+        body: ToDoList(viewModel), 
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) => AddToDoScreen(createTodo: viewModel.addTodo)
+            ));
+            // viewModel.addTodo(new ToDo(data: 'fourth item', title: 'qwe'));
+          },
+          tooltip: 'Add Todo',
+          child: Icon(Icons.add),
+        ),
+      ),
     );
   }
 }

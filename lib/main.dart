@@ -3,8 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import 'package:todo_list/src/model/model.dart';
+import 'package:todo_list/src/redux/actions.dart';
 import 'package:todo_list/src/redux/reducers.dart';
 import 'package:todo_list/src/screens/HomeScreen.dart';
+import 'package:todo_list/src/screens/AddTodoScreen.dart';
+import 'package:todo_list/src/redux/middleware.dart';
 
 void main() => runApp(MyApp());
 
@@ -17,9 +20,13 @@ class MyApp extends StatelessWidget {
     ];
     final Store<AppState> store = Store<AppState>(
       appReducer,
-      // initialState: AppState(todos: mockedList)
-      initialState: AppState.initialState()
+      middleware: [
+        appStateMiddelware
+      ], 
+      initialState: AppState.initialState(),
     );
+
+    print('root'); 
 
     return StoreProvider<AppState>(
       store: store,
@@ -28,7 +35,14 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           brightness: Brightness.dark,
         ),
-        home: HomeScreen(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => StoreBuilder<AppState>(
+            builder: (BuildContext context, Store<AppState> store) => HomeScreen(),
+            onInit: (store) => store.dispatch(GetTodosFromStorage()),
+          ),
+          '/addTodo': (context) => AddToDoScreen(),
+        }
       ),
     );
   }

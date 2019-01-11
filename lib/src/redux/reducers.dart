@@ -18,5 +18,9 @@ List<ToDo> todosReducer(List<ToDo> state, action) {
     return List.unmodifiable(List.from(state)..remove(action.todo));
   }
 
+  if (action is AddTodosToStore) {
+    return action.todos;
+  }
+
   return state;
 } 

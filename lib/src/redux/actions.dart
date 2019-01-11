@@ -11,3 +11,14 @@ class RemoveToDo {
 
   RemoveToDo(this.todo);
 }
+
+class GetTodosFromStorage {}
+
+class AddTodosToStore {
+  final List<ToDo> todos;
+
+  AddTodosToStore(this.todos);
+}
+
+
+
